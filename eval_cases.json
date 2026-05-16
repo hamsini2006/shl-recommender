@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "description": "Labeled evaluation traces for retrieval and agent behavior. relevant_urls are ground-truth SHL catalog items for Recall@K.",
+  "cases": [
+    {
+      "id": "vague_turn1",
+      "type": "behavior",
+      "probe": "no_recommendations_turn1_vague",
+      "description": "Vague first message must clarify without recommendations",
+      "messages": [
+        {"role": "user", "content": "I need an assessment"}
+      ],
+      "relevant_urls": []
+    },
+    {
+      "id": "refuse_salary",
+      "type": "behavior",
+      "probe": "refuse_off_topic",
+      "description": "Off-topic salary question must be refused",
+      "messages": [
+        {"role": "user", "content": "What salary should I pay a senior developer in London?"}
+      ],
+      "relevant_urls": []
+    },
+    {
+      "id": "compare_opq_verify",
+      "type": "behavior",
+      "probe": "compare_no_recommendations",
+      "description": "Comparison question is informational; recommendations must be empty",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What's the difference between Occupational Personality Questionnaire OPQ32r and Verify - G+?"
+        }
+      ],
+      "relevant_urls": []
+    },
+    {
+      "id": "java_engineer_recommend",
+      "type": "recommendation",
+      "probe": "has_recommendations",
+      "description": "Specific Java hiring need should return knowledge/ability assessments",
+      "messages": [
+        {
+          "role": "user",
+          "content": "I am hiring a mid-level software engineer and need cognitive ability tests and Java programming knowledge assessments."
+        }
+      ],
+      "relevant_urls": [
+        "https://www.shl.com/products/product-catalog/view/core-java-advanced-level-new/",
+        "https://www.shl.com/products/product-catalog/view/java-8-new/",
+        "https://www.shl.com/products/product-catalog/view/java-frameworks-new/",
+        "https://www.shl.com/products/product-catalog/view/verify-g/",
+        "https://www.shl.com/products/product-catalog/view/core-java-entry-level-new/"
+      ]
+    },
+    {
+      "id": "personality_sales_manager",
+      "type": "recommendation",
+      "probe": "has_recommendations",
+      "description": "Sales manager personality focus",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Senior sales manager hire. I want personality and leadership assessments, not technical coding tests."
+        }
+      ],
+      "relevant_urls": [
+        "https://www.shl.com/products/product-catalog/view/occupational-personality-questionnaire-opq32r/",
+        "https://www.shl.com/products/product-catalog/view/opq-leadership-report/"
+      ]
+    },
+    {
+      "id": "refine_add_personality",
+      "type": "refine",
+      "probe": "refine_updates_shortlist",
+      "description": "After technical shortlist, user asks to add personality tests",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Hiring a mid-level Java developer. Need Java knowledge and cognitive ability tests."
+        },
+        {
+          "role": "assistant",
+          "content": "Here are some SHL assessments that may fit: Java knowledge and Verify G+ cognitive ability tests."
+        },
+        {
+          "role": "user",
+          "content": "Please add personality tests to the shortlist and remove purely technical knowledge ones."
+        }
+      ],
+      "relevant_urls": [
+        "https://www.shl.com/products/product-catalog/view/occupational-personality-questionnaire-opq32r/",
+        "https://www.shl.com/products/product-catalog/view/verify-g/",
+        "https://www.shl.com/products/product-catalog/view/opq-manager-plus-report-2-0/"
+      ]
+    },
+    {
+      "id": "retrieval_java_query",
+      "type": "retrieval_only",
+      "description": "Retrieval quality for Java hiring query (no agent call)",
+      "search_query": "mid-level Java software engineer programming knowledge cognitive ability",
+      "relevant_urls": [
+        "https://www.shl.com/products/product-catalog/view/core-java-advanced-level-new/",
+        "https://www.shl.com/products/product-catalog/view/java-8-new/",
+        "https://www.shl.com/products/product-catalog/view/java-frameworks-new/",
+        "https://www.shl.com/products/product-catalog/view/verify-g/"
+      ]
+    },
+    {
+      "id": "retrieval_personality_query",
+      "type": "retrieval_only",
+      "description": "Retrieval quality for personality hiring query",
+      "search_query": "senior manager personality leadership OPQ behavioral assessment",
+      "relevant_urls": [
+        "https://www.shl.com/products/product-catalog/view/occupational-personality-questionnaire-opq32r/",
+        "https://www.shl.com/products/product-catalog/view/opq-leadership-report/"
+      ]
+    },
+    {
+      "id": "multi_turn_clarify_then_recommend",
+      "type": "recommendation",
+      "probe": "has_recommendations",
+      "description": "Two-turn flow: vague then specific",
+      "messages": [
+        {"role": "user", "content": "I need help choosing an assessment"},
+        {
+          "role": "assistant",
+          "content": "What role are you hiring for and which skills do you need to assess?"
+        },
+        {
+          "role": "user",
+          "content": "Entry-level accountant role. Knowledge tests for accounts payable and basic numeracy."
+        }
+      ],
+      "relevant_urls": [
+        "https://www.shl.com/products/product-catalog/view/accounts-payable-new/",
+        "https://www.shl.com/products/product-catalog/view/verify-numerical-ability/"
+      ]
+    }
+  ]
+}

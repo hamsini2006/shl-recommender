@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHL Assessment Recommender</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">SHL</div>
+        <div>
+          <h1>Assessment Recommender</h1>
+          <p>Find the right tests for your hiring needs</p>
+        </div>
+      </div>
+
+      <button type="button" class="btn-new" id="btnNewChat" title="Start a new conversation">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        New conversation
+      </button>
+
+      <div class="hints">
+        <p class="hints-label">Try asking</p>
+        <button type="button" class="hint-chip" data-prompt="I need an assessment">I need an assessment</button>
+        <button type="button" class="hint-chip" data-prompt="I'm hiring a mid-level software engineer and need cognitive and Java knowledge tests">Software engineer hiring</button>
+        <button type="button" class="hint-chip" data-prompt="What's the difference between Occupational Personality Questionnaire OPQ32r and Verify - G+?">Compare OPQ vs Verify G+</button>
+        <button type="button" class="hint-chip" data-prompt="Senior sales manager, focus on personality and leadership">Sales manager — personality</button>
+      </div>
+
+      <footer class="sidebar-footer">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusText">Checking server…</span>
+      </footer>
+    </aside>
+
+    <main class="chat-panel">
+      <header class="chat-header">
+        <h2>Chat</h2>
+        <span class="turn-badge" id="turnBadge">Turn 0 / 8</span>
+      </header>
+
+      <div class="messages" id="messages" role="log" aria-live="polite">
+        <div class="welcome" id="welcome">
+          <div class="welcome-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Welcome</h3>
+          <p>Describe the role you're hiring for, the skills to assess, and any preferences (seniority, remote testing, personality vs technical). I'll recommend SHL assessments from the official catalog.</p>
+        </div>
+      </div>
+
+      <form class="composer" id="chatForm">
+        <textarea
+          id="userInput"
+          rows="1"
+          placeholder="Describe your hiring need…"
+          autocomplete="off"
+          maxlength="4000"
+        ></textarea>
+        <button type="submit" class="btn-send" id="btnSend" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
