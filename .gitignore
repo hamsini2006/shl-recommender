@@ -1,5 +1,5 @@
 .env
-chroma_db/
+
 eval_report.json
 __pycache__/
 *.py[cod]

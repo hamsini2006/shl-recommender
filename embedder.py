@@ -1,25 +1,48 @@
-"""Sentence-transformer embedding model (loaded once at startup)."""
+"""Gemini embedding model - zero RAM, runs on Google's servers."""
 
-from sentence_transformers import SentenceTransformer
+import time
+import os
+import google.generativeai as genai
+from dotenv import load_dotenv
 
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+load_dotenv()
 
-_model: SentenceTransformer | None = None
-
-
-def get_embedder() -> SentenceTransformer:
-    global _model
-    if _model is None:
-        _model = SentenceTransformer(MODEL_NAME)
-    return _model
+GEMINI_MODEL = "models/text-embedding-004"
+_configured = False
 
 
-def set_embedder(model: SentenceTransformer) -> None:
-    global _model
-    _model = model
+def _configure():
+    global _configured
+    if not _configured:
+        genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+        _configured = True
+
+
+def get_embedder():
+    """No-op — kept for compatibility with build_index.py."""
+    _configure()
+    return None
+
+
+def set_embedder(model) -> None:
+    """No-op — kept for compatibility."""
+    pass
 
 
 def embed_texts(texts: list[str]) -> list[list[float]]:
-    model = get_embedder()
-    embeddings = model.encode(texts, show_progress_bar=False)
-    return embeddings.tolist()
+    """Embed a list of texts using Gemini API."""
+    _configure()
+    embeddings = []
+    for i, text in enumerate(texts):
+        try:
+            result = genai.embed_content(
+                model=GEMINI_MODEL,
+                content=text[:2000]  # cap length
+            )
+            embeddings.append(result["embedding"])
+        except Exception as e:
+            print(f"Embedding failed for text {i}: {e}")
+            # Return zero vector as fallback (768 dims for text-embedding-004)
+            embeddings.append([0.0] * 768)
+        time.sleep(0.05)  # avoid rate limiting
+    return embeddings
