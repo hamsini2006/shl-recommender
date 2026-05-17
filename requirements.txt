@@ -3,6 +3,8 @@ uvicorn[standard]
 chromadb
 sentence-transformers
 google-generativeai
+google-genai
 pydantic
 python-dotenv
 httpx
+requests
