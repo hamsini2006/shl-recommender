@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GEMINI_MODEL = "models/text-embedding-004"
+# Confirmed available via genai.list_models() on this API key
+GEMINI_MODEL = "models/gemini-embedding-001"   # stable; upgrade to gemini-embedding-2 if needed
 _configured = False
 
 
